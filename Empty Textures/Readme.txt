@@ -1,0 +1,1 @@
+Empty textures for overwriting normal or specular maps

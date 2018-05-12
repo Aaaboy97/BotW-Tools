@@ -1,3 +1,6 @@
+-- Aaaboy97 2018
+
+
 saveFileName = getSaveFileName initialDir:"$export" filename:"bones.csv"
 saveFile = createFile saveFileName
 

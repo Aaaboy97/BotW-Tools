@@ -1,30 +1,6 @@
 -- Aaaboy97 2018
 
 
-command = "rollout CSVExport \"CSV Exporter\" (\n"
-command += "label name \"Model Name\" align:#left across:3\n"
-command += "label uvs \"Copy UVs\" align:#right\n"
-command += "label nrms \"Explicit Normals\" align:#right\n"
-buttonIds = #()
-i = 0
-for poly in geometry do (
-	if classOf poly != BoneGeometry do (
-		i += 1
-		local j = i as string
-		command += "label lbl" + j + " \"" + poly.Name + "\" align:#left across:3\n"
-		command += "checkbox chk" + j + " align:#right\n"
-		command += "radiobuttons rdo" + j + " labels:#(\"Yes\",\"No\") align:#right\n"
-		append buttonIds #(poly, i)
-	)
-)
-command += "button exportBtn \"Export\" align:#right\n"
-command += "on exportBtn pressed do (main())"
-command += ")"
-execute command
-clearListener()
-createDialog CSVExport width:600
-
-
 fn main = (
 	try (
 		local saveFileName = getSaveFileName initialDir:"$export" filename:"dope.csv"
@@ -326,13 +302,42 @@ fn main = (
 			)
 		)
 
-		destroyDialog CSVExport
-		close saveFile
+		try (
+			destroyDialog CSVExport
+		) catch ()
+		try (
+			close saveFile
+		) catch ()
 	) catch (
-		destroyDialog CSVExport
+		try (
+			destroyDialog CSVExport
+		) catch ()
 		try (
 			close saveFile
 		) catch ()
 		throw
 	)
 )
+
+command = "rollout CSVExport \"CSV Exporter\" (\n"
+command += "label name \"Model Name\" align:#left across:3\n"
+command += "label uvs \"Copy UVs\" align:#right\n"
+command += "label nrms \"Explicit Normals\" align:#right\n"
+buttonIds = #()
+i = 0
+for poly in geometry do (
+	if classOf poly != BoneGeometry do (
+		i += 1
+		local j = i as string
+		command += "label lbl" + j + " \"" + poly.Name + "\" align:#left across:3\n"
+		command += "checkbox chk" + j + " align:#right\n"
+		command += "radiobuttons rdo" + j + " labels:#(\"Yes\",\"No\") align:#right\n"
+		append buttonIds #(poly, i)
+	)
+)
+command += "button exportBtn \"Export\" align:#right\n"
+command += "on exportBtn pressed do (main())"
+command += ")"
+execute command
+clearListener()
+createDialog CSVExport width:600

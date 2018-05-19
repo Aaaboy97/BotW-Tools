@@ -1,6 +1,7 @@
 -- Aaaboy97 2018
 
 
+buttonIds = #()
 fn main = (
 	try (
 		local saveFileName = getSaveFileName initialDir:"$export" filename:"dope.csv"
@@ -323,7 +324,6 @@ command = "rollout CSVExport \"CSV Exporter\" (\n"
 command += "label name \"Model Name\" align:#left across:3\n"
 command += "label uvs \"Copy UVs\" align:#right\n"
 command += "label nrms \"Explicit Normals\" align:#right\n"
-buttonIds = #()
 i = 0
 for poly in geometry do (
 	if classOf poly != BoneGeometry do (

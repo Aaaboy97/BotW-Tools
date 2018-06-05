@@ -10,7 +10,17 @@ else:
     new_name = 'output2.csv'
 new = open(new_name, 'w')
 
-bone = str(input('Enter the weight to be moved to the end (case sensitive): '))
+beg = str(input('Would you like to sort to the beginning or end? (b/e): '))
+beg = beg.lower()
+while beg != 'b' and beg != 'e':
+    beg = str(input('Please enter either \'b\' or \'e\': '))
+    beg = beg.lower()
+
+beg = (beg == 'b')
+
+bone = beg and 'beginning' or 'end'
+bone = str(input('Enter the weight to be moved to the ' + bone +
+                 ' (case sensitive): '))
 bones = []
 while bone != 'n':
     bones.append(bone)
@@ -23,7 +33,12 @@ for line in orig:
         weight_ind = temp_line.find(bone + ',')
         next_com_ind = temp_line.find(',', weight_ind + len(bone) + 2)
 
-        if weight_ind != -1 and next_com_ind != len(temp_line) - 1:
+        if beg and weight_ind != -1 and weight_ind != 0:
+            new_line = temp_line[weight_ind:next_com_ind + 1] + \
+                       temp_line[:weight_ind] + \
+                       temp_line[next_com_ind + 1:] + ' '
+        elif (not(beg) and weight_ind != -1 and
+              next_com_ind != len(temp_line) - 1):
             new_line = temp_line[:weight_ind] + \
                        temp_line[next_com_ind + 1:] + \
                        temp_line[weight_ind:next_com_ind + 1] + ' '

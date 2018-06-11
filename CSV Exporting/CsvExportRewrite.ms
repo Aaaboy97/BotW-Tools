@@ -309,6 +309,7 @@ fn main = (
 		try (
 			close saveFile
 		) catch ()
+		print "Succesfully completed!"
 	) catch (
 		try (
 			destroyDialog CSVExport
@@ -316,7 +317,7 @@ fn main = (
 		try (
 			close saveFile
 		) catch ()
-		throw
+		throw()
 	)
 )
 

@@ -317,7 +317,8 @@ fn main = (
 		try (
 			close saveFile
 		) catch ()
-		throw()
+		print "An error occured"
+		print (getCurrentException())
 	)
 )
 

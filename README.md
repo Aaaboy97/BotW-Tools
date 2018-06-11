@@ -14,4 +14,4 @@ Script to export model geometry into a CSV format accepted by .bfres injecting t
 Empty, compressed .dds files to replace normal and specular maps
 
 ### Weight Sorting
-Script to sort weights to the end of the list in the CSV, fixing some stretching
+Script to sort weights to the beginning or end of the list in the CSV, fixing some stretching

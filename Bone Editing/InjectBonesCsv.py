@@ -27,6 +27,7 @@ def main(f0, f1):
                                    boneNames0))
         SRT_0.append([SRTRead(f0, pointerBones_0[i], numBones0[i])])
 
+    print(boneNames0)
     print()
     print("Do you want to select individual skeletons to read data from?"
           " (y/n)")
@@ -77,16 +78,17 @@ def boneSelection(m, numModels0, boneNames0, boneNames1, SRT_1, pointerModel_0,
                 break
 
 
-def boneSelection1(m, s, numModels0, boneNames0, boneNames1, SRT_1,
-                   pointerModel_0, f0):
-    p = boneNames0[s].index(boneNames1[m])
-    for q in range(10):
-        mPos = 0
-        bone = float(SRT_1[m][q])
-        content = struct.pack(">f", bone)
-        mPos = (SRTpointer(f0, inModelReader(f0, pointerModel_0, s)[1]) +
-                (p * 64) + 20 + (q * 4))
-        writeTo(f0, mPos, content)
+def boneSelection1(m, s, numModels0, boneNames0, boneNames1, SRT_1, pointerModel_0, f0):
+    with open(f0, 'rb') as f:
+        p = boneNames0[s].index(boneNames1[m])
+        for q in range(10):
+            mPos = 0
+            bone = float(SRT_1[m][q])
+            content = struct.pack(">f", bone)
+            mPos = SRTpointer(f0, inModelReader(f0, pointerModel_0, s)[1]) + ((p+1) * 16) + 8 + 12
+            f.seek(mPos)
+            mPos = f.tell() + struct.unpack(">l", f.read(4))[0] + 20 + q * 4
+            writeTo(f0, mPos, content)
     print("Matched " + boneNames1[m] + ".")
 
 
@@ -107,7 +109,7 @@ def boneRead(filename, tempPos, number_of_bones, bone_names):
             name = ""
             for k in range(1, lenName+1):
                 name += str(struct.unpack(">s", f.read(1))[0])
-                name = name.replace("b", "").replace("'", "")
+                name = name.replace("b", "", 1).replace("'", "")
             bone_names.append(name)
         return bone_names
 
@@ -136,10 +138,10 @@ def SRTRead(filename, tempPos, number_of_bones):
 def SRTpointer(filename, tempPos):
     with open(filename, 'rb') as f:
         mPos = 0
-        mPos = tempPos + 12
+        mPos = tempPos + 8
         f.seek(mPos)
-        ofsBoneList = struct.unpack(">l", f.read(4))[0]
-        mPos += ofsBoneList
+        ofsBoneDict = struct.unpack(">l", f.read(4))[0]
+        mPos += ofsBoneDict
         return mPos
 
 

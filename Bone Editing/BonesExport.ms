@@ -18,7 +18,7 @@ fn handle n =
 	(
 		n.transform *= (inverse p.transform)
 	)
-	s = n.scale
+	s = 1
 	r = (inverse n.rotation) as eulerangles
 	r = quat (r.x*pi/180) (r.y*pi/180) (r.z*pi/180) 1.0
 	t = n.position

@@ -4,10 +4,12 @@
 from sys import argv
 
 orig = open(argv[1])
-if argv[1] != 'output.csv':
-    new_name = 'output.csv'
-else:
-    new_name = 'output2.csv'
+new_name = 'output.csv'
+try:
+    if (argv[1]).lower()[-10:] == 'output.csv':
+        new_name = 'output2.csv'
+except:
+    pass
 new = open(new_name, 'w')
 
 beg = str(input('Would you like to sort to the beginning or end? (b/e): '))
